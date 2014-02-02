@@ -40,6 +40,8 @@ struct _ { ios_base::Init i; _() { cin.sync_with_stdio(0); cin.tie(0); } } _;
 typedef long long ll;
 typedef vector<int> vi;
 typedef vector<ll> vl;
+typedef pair<int, int> ii;
+typedef vector<ii> vii;
 
 const int INF 	 = 0x3f3f3f3f;
 const double EPS = 1e-7;
