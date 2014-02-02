@@ -25,7 +25,6 @@ int main() {
   priority_queue< string, vector<string>, Compare > pq_comparator;
   priority_queue<int, vector<int>, greater<int> > pq_greater;
 
-
   int money;
   char name[20];
   priority_queue< pair<int, string> > pq;
