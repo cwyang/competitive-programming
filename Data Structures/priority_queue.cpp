@@ -22,6 +22,9 @@ class Compare {
 };
 
 int main() {
+  priority_queue< string, vector<string>, Compare > pq_comparator;
+  priority_queue<int, vector<int>, greater<int> > pq_greater;
+
 
   int money;
   char name[20];
@@ -58,7 +61,4 @@ int main() {
   result = pq.top(); 
   pq.pop();
   printf("%s has %d $\n", ((string)result.second).c_str(), result.first);
-
-  priority_queue< string, vector<string>, Compare > pq_comparator;
-  priority_queue<int, vector<int>, greater<int> > pq_greater;
 }
