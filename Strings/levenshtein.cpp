@@ -1,4 +1,4 @@
-template<class T> unsigned int levenshtein_distance(const T &s1, const T & s2) {
+template<class T> unsigned int levenshteinDistance(const T &s1, const T & s2) {
   const size_t len1 = s1.size(), len2 = s2.size();
   vector<unsigned int> col(len2+1), prevCol(len2+1);
 
