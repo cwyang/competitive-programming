@@ -1,4 +1,4 @@
-template<class T> unsigned int damerauLevenshteinDistance(const T &s1, const T &s2) {
+template<class T> unsigned int damerauDistance(const T &s1, const T &s2) {
   const size_t len1 = s1.size(), len2 = s2.size();
   unsigned int d[len1 + 1][len2 + 1], cost;
 
@@ -17,7 +17,8 @@ template<class T> unsigned int damerauLevenshteinDistance(const T &s1, const T &
       d[i][j] = min(min(d[i - 1][j] + 1, d[i][j - 1] + 1),
                     d[i - 1][j - 1] + cost);
 
-      if ((i > 1) && (j > 1) && (s1[i - 1] == s2[j - 2]) && (s1[i - 2] == s2[j - 1])) {
+      if ((i > 1) && (j > 1) && (s1[i - 1] == s2[j - 2]) &&
+        (s1[i - 2] == s2[j - 1])) {
         d[i][j] = min(d[i][j], d[i - 2][j - 2] + cost);
       }
     }

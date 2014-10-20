@@ -35,7 +35,8 @@ class BigUInt {
     void fromstring(string s) {
         setzero();
         size_t n = s.size();
-        static const uint32 tens[] = {0, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000};
+        static const uint32 tens[] = {0, 10, 100, 1000, 10000, 100000,
+                                      1000000, 10000000, 100000000};
         for (size_t i = 0; i < n; i += 8) {
             size_t len = MIN(8, s.size() - i);
             string part = s.substr(i, len);

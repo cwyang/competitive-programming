@@ -8,8 +8,7 @@
 #include <utility>
 
 const int INF = 0x3f3f3f3f;
-
-#define N 50      
+#define N 50
 
 using namespace std;
 
@@ -17,21 +16,21 @@ class Hungarian {
   private:
     int n;
     int max_match;
-    int cost[N*N];         
+    int cost[N*N];
     int costMin[N*N];
 
     vector<int> lx;
-    vector<int> ly;        
-    vector<int> xy;              
-    vector<int> yx;               
+    vector<int> ly;
+    vector<int> xy;
+    vector<int> yx;
     vector<bool> S;
-    vector<bool> T;         
-    int slack[N];           
-    int slackx[N];                  
+    vector<bool> T;
+    int slack[N];
+    int slackx[N];
     vector<int> prev;
 
     void update_labels() {
-      int x, y, delta = INF;     
+      int x, y, delta = INF;
       for (y = 0; y < n; y++) {
         if (!T[y]) {
           delta = min(delta, slack[y]);
@@ -42,15 +41,15 @@ class Hungarian {
         if (S[x]) {
           lx[x] -= delta;
         }
-      }         
-            
+      }
+
       for (y = 0; y < n; y++) {
         if (T[y]) {
           ly[y] += delta;
         }
       }
 
-      for (y = 0; y < n; y++) {          
+      for (y = 0; y < n; y++) {
         if (!T[y]) {
           slack[y] -= delta;
          }
@@ -70,8 +69,8 @@ class Hungarian {
     }
 
     void add_to_tree(int x, int prevx) {
-      S[x] = true;                   
-      prev[x] = prevx;            
+      S[x] = true;
+      prev[x] = prevx;
 
       for (int y = 0; y < n; y++) {
         int it = x * n + y;
@@ -85,17 +84,17 @@ class Hungarian {
 
     void augment() {
       if (max_match == n) {
-        return;       
+        return;
       }
 
-      int x, y, root;                   
-      int q[N], wr = 0, rd = 0;          
+      int x, y, root;
+      int q[N], wr = 0, rd = 0;
 
-      S.assign(n, false);   
-      T.assign(n, false);     
-      prev.assign(n, -1); 
+      S.assign(n, false);
+      T.assign(n, false);
+      prev.assign(n, -1);
 
-      for (x = 0; x < n; x++) {       
+      for (x = 0; x < n; x++) {
         if (xy[x] == -1) {
           q[wr++] = root = x;
           prev[x] = -2;
@@ -112,34 +111,34 @@ class Hungarian {
 
       while (true) {
         while (rd < wr) {
-          x = q[rd++];                                                
-                
-          for (y = 0; y < n; y++) {   
-            int it = x * n + y;                             
-                    
+          x = q[rd++];
+
+          for (y = 0; y < n; y++) {
+            int it = x * n + y;
+
             if (cost[it] == lx[x] + ly[y] &&  !T[y]) {
               if (yx[y] == -1) {
                 break;
               }
-              
-              T[y] = true;                             
-              q[wr++] = yx[y];                                    
-              add_to_tree(yx[y], x);                              
+
+              T[y] = true;
+              q[wr++] = yx[y];
+              add_to_tree(yx[y], x);
             }
           }
-          
-          if (y < n) { 
-            break;     
-          }                                   
+
+          if (y < n) {
+            break;
+          }
         }
-        
+
         if (y < n) {
           break;
-        } 
+        }
 
-        update_labels();   
-        wr = rd = 0;                
-        
+        update_labels();
+        wr = rd = 0;
+
         for (y = 0; y < n; y++) {
           if (!T[y] &&  slack[y] == 0) {
             if (yx[y] == -1) {
@@ -149,67 +148,66 @@ class Hungarian {
               T[y] = true;
 
               if (!S[yx[y]]) {
-                q[wr++] = yx[y];                                    
-                add_to_tree(yx[y], slackx[y]);                                                  
+                q[wr++] = yx[y];
+                add_to_tree(yx[y], slackx[y]);
               }
             }
           }
         }
-            
+
         if (y < n) {
           break;
-        }                                              
+        }
       }
 
       if (y < n) {
-        max_match++;                                                   
-      
+        max_match++;
+
         for (int cx = x, cy = y, ty; cx != -2; cx = prev[cx], cy = ty) {
           ty = xy[cx];
           yx[cy] = cx;
           xy[cx] = cy;
         }
 
-        augment();                                                      
+        augment();
       }
     }
 
     int getMax() {
-      int ret = 0;                    
-      max_match = 0;                  
-      xy.assign(n, -1);    
+      int ret = 0;
+      max_match = 0;
+      xy.assign(n, -1);
       yx.assign(n, -1);
 
-      init_labels();                    
-      augment();                      
+      init_labels();
+      augment();
 
       for (int x = 0; x < n; x++) {
         int it = x * n + xy[x];
         ret += cost[it];
       }
-        
+
       return ret;
     }
 
     int getMin() {
-      int ret = 0;                    
-      max_match = 0;                  
-      xy.assign(n, -1);    
+      int ret = 0;
+      max_match = 0;
+      xy.assign(n, -1);
       yx.assign(n, -1);
 
-      init_labels();                    
-      augment();                      
-       
+      init_labels();
+      augment();
+
       for (int x = 0; x < n; x++) {
         int it = x * n + xy[x];
         ret += costMin[it];
       }
-        
+
       return ret;
     }
 
   public:
-    
     int max_optimal;
     int min_optimal;
 
@@ -239,7 +237,7 @@ class Hungarian {
     }
 };
 
-void test1() {
+int main() {
   int test_cost[] = { 250, 400, 250,    //  [ 250  400  250 ]
                       400, 600, 250,    //  [ 400  600  250 ]
                       200, 400, 250 };  //  [ 200  400  250 ]
@@ -255,30 +253,4 @@ void test1() {
   //  [  250  (400)  250  ]
   //  [  400   600  (250) ]   MIN COST = 850
   //  [ (200)  400   250  ]
-}
-
-void test2() {
-  int test_cost[] = {  90,  75, 75, 80,     //  [ 90   75  75   80 ]
-                       35,  85, 55, 65,     //  [ 35   85  55   65 ]
-                      125,  95, 90, 105,    //  [ 125  95  90  105 ]
-                       45, 110, 95, 115 };  //  [ 45  110  95  115 ]
-  int n = 4;  
-  Hungarian hungarian(n, test_cost);
-
-  assert(hungarian.max_optimal == 400);
-  //  [  90    75  (75)   80  ]
-  //  [  35   (85)  55    65  ]   MAX COST = 400
-  //  [ (125)  95   90   105  ]
-  //  [  45   110   95  (115) ]
-
-  assert(hungarian.min_optimal == 275);
-  //  [  90   75   75  (80) ]
-  //  [  35   85  (55)  65  ]   MIN COST = 275
-  //  [ 125  (95)  90  105  ]
-  //  [ (45) 110   95  115  ]
-}
-
-int main() {
-  test1();
-  test2();
 }

@@ -8,10 +8,9 @@ typedef pair<int, int> ii;
 typedef vector<int> vi;
 typedef vector<ii> vii;
 
-
-class UnionFind {                                            
+class UnionFind {
 private:
-  vi p, rank, setSize;                   
+  vi p, rank, setSize;
   int numSets;
 public:
   UnionFind(int N) {
@@ -19,8 +18,8 @@ public:
     p.assign(N, 0); for (int i = 0; i < N; i++) p[i] = i; }
   int findSet(int i) { return (p[i] == i) ? i : (p[i] = findSet(p[i])); }
   bool isSameSet(int i, int j) { return findSet(i) == findSet(j); }
-  void unionSet(int i, int j) { 
-    if (!isSameSet(i, j)) { numSets--; 
+  void unionSet(int i, int j) {
+    if (!isSameSet(i, j)) { numSets--;
     int x = findSet(i), y = findSet(j);
     if (rank[x] > rank[y]) { p[y] = x; setSize[x] += setSize[y]; }
     else                   { p[x] = y; setSize[y] += setSize[x];
@@ -30,58 +29,49 @@ public:
 };
 
 vector<vii> AdjList;
-vi taken;                               
-priority_queue<ii> pq;           
+vi taken;
+priority_queue<ii> pq;
 
-void process(int vtx) {   
+void process(int vtx) {
   taken[vtx] = 1;
   for (int j = 0; j < (int)AdjList[vtx].size(); j++) {
     ii v = AdjList[vtx][j];
     if (!taken[v.first]) pq.push(ii(-v.second, -v.first));
-} }                                
+} }
 
 int main() {
   int V, E, u, v, w;
 
-  freopen("in_03.txt", "r", stdin);
-
   scanf("%d %d", &V, &E);
-  
   AdjList.assign(V, vii());
-  vector< pair<int, ii> > EdgeList;   
+  vector< pair<int, ii> > EdgeList;
   for (int i = 0; i < E; i++) {
-    scanf("%d %d %d", &u, &v, &w);     
-    EdgeList.push_back(make_pair(w, ii(u, v)));       
+    scanf("%d %d %d", &u, &v, &w);
+    EdgeList.push_back(make_pair(w, ii(u, v)));
     AdjList[u].push_back(ii(v, w));
     AdjList[v].push_back(ii(u, w));
   }
-  sort(EdgeList.begin(), EdgeList.end()); 
-                      
+  sort(EdgeList.begin(), EdgeList.end());
 
   int mst_cost = 0;
-  UnionFind UF(V);                  
-  for (int i = 0; i < E; i++) {             
+  UnionFind UF(V);
+  for (int i = 0; i < E; i++) {
     pair<int, ii> front = EdgeList[i];
-    if (!UF.isSameSet(front.second.first, front.second.second)) {  
-      mst_cost += front.first;               
-      UF.unionSet(front.second.first, front.second.second);    
-  } }                       
+    if (!UF.isSameSet(front.second.first, front.second.second)) {
+      mst_cost += front.first;
+      UF.unionSet(front.second.first, front.second.second);
+  } }
 
   printf("MST cost = %d (Kruskal's)\n", mst_cost);
 
-
-
-// prim algotithm
-  taken.assign(V, 0);              
-  process(0);   
+  taken.assign(V, 0);
+  process(0);
   mst_cost = 0;
-  while (!pq.empty()) { 
+  while (!pq.empty()) {
     ii front = pq.top(); pq.pop();
-    u = -front.second, w = -front.first;  
-    if (!taken[u])            
-      mst_cost += w, process(u); 
-  }                                        
+    u = -front.second, w = -front.first;
+    if (!taken[u])
+      mst_cost += w, process(u);
+  }
   printf("MST cost = %d (Prim's)\n", mst_cost);
-
-  return 0;
 }

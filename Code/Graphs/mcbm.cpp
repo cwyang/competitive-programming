@@ -7,17 +7,18 @@ typedef pair<int, int> ii;
 typedef vector<int> vi;
 
 vector<vi> AdjList;
-vi match, vis;                                          // global variables
+vi match, vis;
 
-int Aug(int l) {                 // return 1 if an augmenting path is found
-  if (vis[l]) return 0;                               // return 0 otherwise
+int Aug(int l) {
+  if (vis[l]) return 0;
   vis[l] = 1;
   for (int j = 0; j < (int)AdjList[l].size(); j++) {
     int r = AdjList[l][j];
     if (match[r] == -1 || Aug(match[r])) {
-      match[r] = l; return 1;                           // found 1 matching
-  } }
-  return 0;                                                  // no matching
+      match[r] = l; return 1;
+    } 
+  }
+  return 0;
 }
 
 bool isprime(int v) {

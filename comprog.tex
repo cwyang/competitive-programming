@@ -1,0 +1,257 @@
+\documentclass[9pt,a4paper,twocolumn,landscape,oneside]{amsart}
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{fullpage}
+%\usepackage{geometry}
+\usepackage[top=0pt, bottom=1cm, left=0.3cm, right=0.3cm]{geometry}
+\usepackage{graphicx}
+% \usepackage{listings}
+\usepackage{subcaption}
+\usepackage[scaled]{beramono}
+\usepackage{titling}
+\usepackage{datetime}
+
+\newcommand{\subtitle}[1]{%
+  \posttitle{%
+    \par\end{center}
+    \begin{center}\large#1\end{center}
+    \vskip0.5em}%
+}
+
+% Minted
+\usepackage{minted}
+\newcommand{\code}[1]{\inputminted{cpp}{_Code/#1}}
+
+% Header/Footer
+% \geometry{includeheadfoot}
+%\fancyhf{}
+\pagestyle{fancy}
+\lhead{Universidad Autónoma De Aguascalientes}
+\rhead{\thepage}
+\cfoot{}
+\setlength{\headheight}{15.2pt}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% Math and bit operators
+\DeclareMathOperator{\lcm}{lcm}
+\newcommand*\BitAnd{\mathrel{\&}}
+\newcommand*\BitOr{\mathrel{|}}
+\newcommand*\ShiftLeft{\ll}
+\newcommand*\ShiftRight{\gg}
+\newcommand*\BitNeg{\ensuremath{\mathord{\sim}}}
+
+% Title/Author
+\title{Epsilon}
+\subtitle{Team Reference Document}
+\date{\ddmmyyyydate{\today{}}}
+
+% Output Verbosity
+\newif\ifverbose
+\verbosetrue
+% \verbosefalse
+
+\begin{document}
+
+\maketitle
+\thispagestyle{fancy}
+\tableofcontents
+
+\newpage
+
+\section{Code Templates}
+    \subsection{C++ Template}
+        A C++ template.
+        \code{template.cpp}
+
+\section{Data Structures}
+    \subsection{Union-Find}
+        An implementation of the Union-Find disjoint sets data structure.
+        \code{DataStructures/union_find.cpp}
+
+    \subsection{Segment Tree}
+        An implementation of a Segment Tree.
+        \code{DataStructures/segment_tree.cpp}
+
+    \subsection{Fenwick Tree}
+        A Fenwick Tree is a data structure that represents an array of $n$
+        numbers. It supports adjusting the $i$-th element in $O(\log n)$ time,
+        and computing the sum of numbers in the range $i..j$ in $O(\log n)$
+        time. It only needs $O(n)$ space.
+        \code{DataStructures/fenwick_tree.cpp}
+
+    \subsection{BigInt}
+        A big integer class.
+        \code{DataStructures/big_int.cpp}
+
+\section{Graphs}
+    \subsection{Single-Source Shortest Paths}
+        \subsubsection{Dijkstra's algorithm}
+            An implementation of Dijkstra's algorithm.
+            \code{Graphs/dijkstra.cpp}
+
+      \subsubsection{Bellman-Ford algorithm}
+            The Bellman-Ford algorithm solves the single-source shortest paths
+            problem in $O(|V||E|)$ time. It is slower than Dijkstra's
+            algorithm, but it works on graphs with negative edges and has the
+            ability to detect negative cycles, neither of which Dijkstra's
+            algorithm can do.
+            \code{Graphs/bellman_ford.cpp}
+
+    \subsection{All-Pairs Shortest Paths}
+        \subsubsection{Floyd-Warshall algorithm}
+            The Floyd-Warshall algorithm solves the all-pairs shortest paths
+            problem in $O(|V|^3)$ time.
+            \code{Graphs/floyd_warshall.cpp}
+
+    \subsection{Minimum Spanning Tree}
+        \subsubsection{Kruskal's algorithm}
+            \code{Graphs/kruskal_prim.cpp}
+
+    \subsection{Maximum Flow}
+        \subsubsection{Edmonds Karp's algorithm}
+            An implementation of Edmonds Karp's algorithm that runs in
+            $O(|V||E|^2)$. It computes the maximum flow of a flow network.
+            \code{Graphs/edmond_karp.cpp}
+
+  \subsection{Bipartite}
+        \subsubsection{Breadth-first search with bipartite checking}
+            Breadth-first search and bipartite graph check
+            \code{Graphs/bipartite.cpp}
+
+\section{Dynamic programming}
+    \subsection{Longest increasing subsequence}
+        Find a subsequence of a given sequence in which the subsequence's
+        elements are in sorted order, lowest to highest, and in which the
+        subsequence is as long as possible
+        \code{DynamicProgramming/LIS.cpp}
+
+\section{Math}
+    \subsection{Euclidean algorithm}
+        The Euclidean algorithm computes the greatest common divisor of two
+        integers $a$, $b$.
+        \code{Mathematics/gcd.cpp}
+
+    \subsection{Primes}
+        Sieve, prime factors, etc.
+        \code{Mathematics/primes.cpp}
+
+    \ifverbose
+    \subsection{Fraction}
+        A fraction (rational number) class. Note that numbers are stored in
+        lowest common terms.
+        \code{Mathematics/fractions.cpp}
+    \fi
+
+\section{Optimization}
+    \subsection{Hungarian Method}
+        Combinatorial optimization algorithm that solves the assignment
+        problem in polynomial time
+        \code{Optimization/hungarian_method.cpp}
+
+\section{Strings}
+    \subsection{Levenshtein Distance}
+        Distance between two words is the minimum number of single-character
+        edits (i.e. insertions, deletions or substitutions) required to change
+        one word into the other
+        \code{Strings/levenshtein.cpp}
+
+      \subsection{Damerau–Levenshtein distance}
+          Distance between two words is the minimum number of single-character
+          edits (i.e. insertions, deletions, substitutions and transpositions)
+          required to change one word into the other
+          \code{Strings/damerau_levenshtein.cpp}
+
+\section{Geometry}
+    \subsection{Formulas}
+        Let $a = (a_x, a_y)$ and $b = (b_x, b_y)$ be two-dimensional vectors.
+        \begin{itemize}
+            \item $a\cdot b = |a||b|\cos{\theta}$, where $\theta$ is the angle
+                between $a$ and $b$.
+            \item $a\times b = |a||b|\sin{\theta}$, where $\theta$ is the
+                signed angle between $a$ and $b$.
+            \item $a\times b$ is equal to the area of the parallelogram with
+                two of its sides formed by $a$ and $b$. Half of that is the
+                area of the triangle formed by $a$ and $b$.
+        \end{itemize}
+
+\section{Other Algorithms}
+    \subsection{Dates}
+        Functions to simplify date calculations.
+        \code{Other/dates.cpp}
+
+    \subsection{itoa}
+        Converts an integer value to a null-terminated string using the
+        specified base and stores the result in the array given by str
+        parameter.
+        \code{Other/itoa.cpp}
+
+    \subsection{Bit Hacks}
+        \begin{itemize}
+            \item \texttt{n \&{} -n} returns the first set bit in $n$.
+            \item \texttt{n \&{} (n - 1)} is $0$ only if $n$ is a power of two.
+            \item \texttt{snoob(x)} returns the next integer that has the
+                same amount of bits set as \texttt{x}. Useful for iterating
+                through subsets of some specified size.
+        \end{itemize}
+        \code{Other/snoob.cpp}
+
+\section{Useful Information}
+    \subsection{Tips \&{} Tricks}
+        \begin{itemize}
+            \item How fast does our algorithm have to be? Can we use
+                brute-force?
+            \item Does order matter?
+            \item Is it better to look at the problem in another way? Maybe
+                backwards?
+            \item Are there subproblems that are recomputed? Can we cache them?
+            \item Do we need to remember everything we compute, or just the
+                last few iterations of computation?
+            \item Does it help to sort the data?
+            \item Can we speed up lookup by using a map (tree or hash) or an
+                array?
+            \item Can we binary search the answer?
+            \item Can we add vertices/edges to the graph to make the problem
+                easier? Can we turn the graph into some other kind of a graph
+                (perhaps a DAG, or a flow network)?
+            \item Make sure integers are not overflowing.
+            \item Is it better to compute the answer modulo $n$? Perhaps we can
+                compute the answer modulo $m_1,m_2,\ldots,m_k$, where
+                $m_1,m_2,\ldots,m_k$ are pairwise coprime integers, and find
+                the real answer using CRT?
+            \item Are there any edge cases? When $n=0, n=-1, n=1, n=2^{31}-1$
+                or $n=-2^{31}$? When the list is empty, or contains a single
+                element? When the graph is empty, or contains a single vertex?
+                When the graph contains self-loops?  When the polygon is
+                concave or non-simple?
+            \item Can we use exponentiation by squaring?
+        \end{itemize}
+
+    \subsection{128-bit Integer}
+        GCC has a 128-bit integer data type named \texttt{\_\_int128}. Useful
+        if doing multiplication of 64-bit integers, or something needing a
+        little more than 64-bits to represent.
+
+    \subsection{Worst Time Complexity}
+    \begin{center}
+        \begin{tabular}{c|c|c}
+            $n$ & Worst AC Algorithm & Comment \\
+            \hline
+            $\leq 10$ & $O(n!), O(n^6)$ & e.g. Enumerating a permutation \\
+            $\leq 15$ & $O(2^n\times n^2)$ & e.g. DP TSP \\
+            $\leq 20$ & $O(2^n), O(n^5)$ & e.g. DP + bitmask technique \\
+            $\leq 50$ & $O(n^4)$ & e.g. DP with 3 dimensions + $O(n)$ loop, choosing  $_nC_k=4$ \\
+            $\leq 10^2$ & $O(n^3)$ & e.g. Floyd Warshall's \\
+            $\leq 10^3$ & $O(n^2)$ & e.g. Bubble/Selection/Insertion sort \\
+            $\leq 10^5$ & $O(n\log_2{n})$ & e.g. Merge sort, building a Segment tree \\
+            $\leq 10^6$ & $O(n), O(\log_2{n}), O(1)$ & Usually, contest problems have $n\leq10^6$ (e.g. to read input) \\
+        \end{tabular}
+    \end{center}
+
+\end{document}
